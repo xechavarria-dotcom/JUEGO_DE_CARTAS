@@ -85,13 +85,13 @@ public class FrmJuego extends JFrame {
             JOptionPane.showMessageDialog(null,
                 jugador1.getGrupos() + "\n" +
                 jugador1.getEscaleras() + "\n" +
-                "Puntaje: " + jugador1.getPuntajeCartasSolas());
+                "Puntaje de Martín Estrada Contreras: " + jugador1.getPuntajeCartasSolas());
             break;
         case 1:
             JOptionPane.showMessageDialog(null,
                 jugador2.getGrupos() + "\n" +
                 jugador2.getEscaleras() + "\n" +
-                "Puntaje: " + jugador2.getPuntajeCartasSolas());
+                "Puntaje de Raúl Vidal: " + jugador2.getPuntajeCartasSolas());
             break;
     }
 }
