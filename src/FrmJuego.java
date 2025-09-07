@@ -84,19 +84,15 @@ public class FrmJuego extends JFrame {
         case 0:
             JOptionPane.showMessageDialog(null,
                 jugador1.getGrupos() + "\n" +
-                jugador1.getEscaleras() + "\n" +
-                "Puntaje de Martín Estrada Contreras: " + jugador1.getPuntajeCartasSolas());
+                jugador1.getEscaleras()+ jugador1.getSobrantesFinales() + jugador1.getPuntosSobrantesFinales()  );
             break;
         case 1:
             JOptionPane.showMessageDialog(null,
                 jugador2.getGrupos() + "\n" +
-                jugador2.getEscaleras() + "\n" +
-                "Puntaje de Raúl Vidal: " + jugador2.getPuntajeCartasSolas());
+                jugador2.getEscaleras() + jugador2.getSobrantesFinales() + jugador2.getPuntosSobrantesFinales() );
+                
             break;
     }
-}
-
-
-    
+ }   
 
 }
