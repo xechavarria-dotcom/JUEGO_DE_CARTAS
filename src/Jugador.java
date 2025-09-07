@@ -8,24 +8,21 @@ public class Jugador {
     private final int SEPARACION = 40;
     private Carta[] cartas = new Carta[TOTAL_CARTAS];
     private Random r = new Random();
-
     private Carta[] sobrantesGrupos = new Carta[TOTAL_CARTAS];
     private int totalSobrantesGrupos = 0;
-
     private Carta[] sobrantesEscaleras = new Carta[TOTAL_CARTAS];
     private int totalSobrantesEscaleras = 0;
-
     private Carta[] sobrantesFinales = new Carta[TOTAL_CARTAS];
     private int totalSobrantesFinales = 0;
 
-    // reparte cartas aleatorias
+    // Reparte cartas aleatorias
     public void repartir() {
         for (int i = 0; i < TOTAL_CARTAS; i++) {
             cartas[i] = new Carta(r);
         }
     }
 
-    // dibuja las cartas en el panel
+    // Dibuja las cartas en el panel
     public void mostrar(JPanel pnl) {
         pnl.removeAll();
         int posicion = MARGEN + TOTAL_CARTAS * SEPARACION;
@@ -36,9 +33,9 @@ public class Jugador {
         pnl.repaint();
     }
 
-    // busca grupos (pares, tercia, etc.)
+    // Busca grupos (pares, tercia, etc.) y halla las cartas sobrantes que no forman un grupo.
     public String getGrupos() {
-        String resultado = "No se encontraron grupos";
+        String resultado = "No se encontraron grupos \n";
         int[] contadores = new int[NombreCarta.values().length];
         totalSobrantesGrupos = 0;
 
@@ -80,13 +77,12 @@ public class Jugador {
         }
         return resultado;
     }
-
-    // Buscar las escaleras
+// NUEV FUNCIONALIDAD: Busco escaleras desde 2 cartas o mas de la misma pinta consecutivas, suma las cartas que forman una escalera
     public String getEscaleras() {
         String resultado = "No se encontraron escaleras";
         String[] nombresCartas = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
         boolean hayEscaleras = false;
-        totalSobrantesEscaleras = 0; // reiniciar sobrantes escaleras
+        totalSobrantesEscaleras = 0; 
 
         for (int p = 0; p < Pinta.values().length; p++) {
             Pinta pinta = Pinta.values()[p];
@@ -118,21 +114,23 @@ public class Jugador {
                         String cartaFin = nombresCartas[inicio + contador - 1];
                         resultado = resultado + Grupo.values()[contador] + " de " + pinta + ": desde " + cartaInicio + " hasta " + cartaFin + "\n";
 
-                        // Guardar las cartas que forman la escalera
+                        // Guarda las cartas que forman la escalera
                         for (int k = inicio; k <= inicio + contador - 1; k++) {
                             for (int j = 0; j < TOTAL_CARTAS; j++) {
                                 Carta c = cartas[j];
-                                if (c.getPinta() == pinta && c.getNombre().ordinal() == k) {
+                                if (c.getPinta() == pinta){
+                                 if(c.getNombre().ordinal() == k) {
                                     sobrantesEscaleras[totalSobrantesEscaleras] = c;
                                     totalSobrantesEscaleras = totalSobrantesEscaleras + 1;
                                 }
+                              }
                             }
                         }
                     }
                     contador = 0;
                 }
             }
-
+           //Si la escalera termina en la ultima carta, esto asegura que se genere el texto correspondiente
             if (contador >= 2) {
                 if (hayEscaleras == false) {
                     resultado = "Se hallaron las siguientes escaleras:\n";
@@ -142,25 +140,15 @@ public class Jugador {
                 String cartaFin = nombresCartas[inicio + contador - 1];
                 resultado = resultado + Grupo.values()[contador] + " de " + pinta + ": desde " + cartaInicio + " hasta " + cartaFin + "\n";
 
-                // Guardar las cartas que forman la escalera
-                for (int k = inicio; k <= inicio + contador - 1; k++) {
-                    for (int j = 0; j < TOTAL_CARTAS; j++) {
-                        Carta c = cartas[j];
-                        if (c.getPinta() == pinta && c.getNombre().ordinal() == k) {
-                            sobrantesEscaleras[totalSobrantesEscaleras] = c;
-                            totalSobrantesEscaleras = totalSobrantesEscaleras + 1;
-                        }
                     }
                 }
+                return resultado;
             }
-        }
-        return resultado;
-    }
-
-    // sobrantes finales
+    
+    //Compara los sobrantes de los grupos y las de las escaleras, retorna las cartas sobrantes, permite el calculo de el puntaje.
     public String getSobrantesFinales() {
         totalSobrantesFinales = 0;
-        String resultado = "No hay cartas sobrantes \n";
+        String resultado = "\n No hay cartas sobrantes \n";
 
         for (int i = 0; i < totalSobrantesGrupos; i++) {
             Carta cg = sobrantesGrupos[i];
@@ -189,7 +177,7 @@ public class Jugador {
         return resultado;
     }
 
-    // puntos de sobrantes finales
+    // Calcula el puntaje final del jugador
     public String getPuntosSobrantesFinales() {
         int total = 0;
         for (int i = 0; i < totalSobrantesFinales; i++) {
