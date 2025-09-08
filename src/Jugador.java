@@ -79,7 +79,7 @@ public class Jugador {
     }
 // NUEV FUNCIONALIDAD: Busco escaleras desde 2 cartas o mas de la misma pinta consecutivas, suma las cartas que forman una escalera
     public String getEscaleras() {
-        String resultado = "No se encontraron escaleras";
+        String resultado = "No se encontraron escaleras \n";
         String[] nombresCartas = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
         boolean hayEscaleras = false;
         totalSobrantesEscaleras = 0; 
@@ -177,32 +177,17 @@ public class Jugador {
         return resultado;
     }
 
-    // Calcula el puntaje final del jugador
-    public String getPuntosSobrantesFinales() {
-        int total = 0;
-        for (int i = 0; i < totalSobrantesFinales; i++) {
-            Carta c = sobrantesFinales[i];
-            String nombre = c.getNombre().name();
+// Calcula el puntaje final del jugador
 
-            if (nombre == "AS") {
-                total = total + 10;
-            } else {
-                if (nombre == "JACK") {
-                    total = total + 10;
-                } else {
-                    if (nombre == "QUEEN") {
-                        total = total + 10;
-                    } else {
-                        if (nombre == "KING") {
-                            total = total + 10;
-                        } else {
-                            total = total + (c.getNombre().ordinal() + 1);
-                        }
-                    }
-                }
-            }
-        }
-        return "\n Puntaje:\n" + total;
+public String getPuntosSobrantesFinales() {
+    int total = 0;
+    for (int i = 0; i < totalSobrantesFinales; i++) {
+        Carta c = sobrantesFinales[i];
+        total = total + c.getValor();  //Aquí usamos el método de la clase Carta getValor
     }
+    return "\n Puntaje:\n" + total;
+    }
+
 }
+
 
